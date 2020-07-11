@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -143,8 +144,11 @@ public class Othello {
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.setResizable(false);
 		gameFrame.setTitle("Othello");
+		gameFrame.setBackground(Color.BLACK);
 		gameFrame.getContentPane().setLayout(null);
 
+		
+		
 		JButton newGameButton = new JButton("New Game");
 		newGameButton.setBounds(268, 664, 105, 23);
 		newGameButton.addActionListener(new ActionListener() {
@@ -168,6 +172,9 @@ public class Othello {
 				gridOfSquares[row][column].setIcon(new ImageIcon(Othello.class.getResource(GREEN_SQUARE_IMAGE_PATH)));
 				gridOfSquares[row][column].setBounds(79 * column, 80 * row, 80, 80);
 				gridOfSquares[row][column].setContentAreaFilled(false);
+				gridOfSquares[row][column].setRolloverEnabled(false);
+				gridOfSquares[row][column].setBorderPainted(false);
+				
 
 				final int r = row;
 				final int c = column;
