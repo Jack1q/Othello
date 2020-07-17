@@ -1,18 +1,8 @@
-import java.util.ArrayList;
-
 public class Move {
 	private int row;
 	private int column;
 	private int moveWeight;
-	// private ArrayList<Move> possibleMoves;
 
-	/**
-	 * Move object constructor
-	 * 
-	 * @param row
-	 * @param column
-	 * @param moveWeight
-	 */
 	public Move(int row, int column) {
 		this.row = row;
 		this.column = column;

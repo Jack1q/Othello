@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.JLabel;
 
 public class Othello {
 
@@ -58,11 +59,13 @@ public class Othello {
 	}
 
 	private void initializeChoiceFrames() {
-//		try {
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//		} catch (Exception e) {
-//		}
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		}
 		choiceFrame = new JFrame();
+		choiceFrame.getContentPane().setBackground(new Color(46, 139, 87));
+		choiceFrame.getContentPane().setFont(new Font("Arial", Font.PLAIN, 66));
 		choiceFrame.setBounds(100, 100, 500, 350);
 		choiceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		choiceFrame.setResizable(false);
@@ -71,8 +74,9 @@ public class Othello {
 		choiceFrame.setVisible(true);
 
 		JButton singlePlayerButton = new JButton("One Player");
+		singlePlayerButton.setToolTipText("Play against the computer");
 		singlePlayerButton.setFont(new Font("Arial", Font.PLAIN, 20));
-		singlePlayerButton.setBounds(80, 90, 150, 150);
+		singlePlayerButton.setBounds(175, 151, 150, 50);
 		singlePlayerButton.setFocusPainted(false);
 		singlePlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,6 +84,7 @@ public class Othello {
 				window.choiceFrame.setVisible(false);
 
 				difficultyFrame = new JFrame();
+				difficultyFrame.getContentPane().setBackground(new Color(46, 139, 87));
 				difficultyFrame.setBounds(100, 100, 500, 350);
 				difficultyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				difficultyFrame.setResizable(false);
@@ -120,8 +125,9 @@ public class Othello {
 		////////////////////////////////////////////////////
 
 		JButton twoPlayerButton = new JButton("Two Players");
+		twoPlayerButton.setToolTipText("Play against a friend");
 		twoPlayerButton.setFont(new Font("Arial", Font.PLAIN, 20));
-		twoPlayerButton.setBounds(270, 90, 150, 150);
+		twoPlayerButton.setBounds(175, 223, 150, 50);
 		twoPlayerButton.setFocusPainted(false);
 		twoPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -132,6 +138,11 @@ public class Othello {
 		});
 
 		choiceFrame.getContentPane().add(twoPlayerButton);
+
+		JLabel label = new JLabel("Othello");
+		label.setFont(new Font("Arial", Font.BOLD, 96));
+		label.setBounds(88, 39, 335, 85);
+		choiceFrame.getContentPane().add(label);
 
 	}
 
@@ -144,13 +155,13 @@ public class Othello {
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.setResizable(false);
 		gameFrame.setTitle("Othello");
-		gameFrame.setBackground(Color.BLACK);
+		gameFrame.getContentPane().setBackground(new Color(46, 139, 87));
+
 		gameFrame.getContentPane().setLayout(null);
 
-		
-		
 		JButton newGameButton = new JButton("New Game");
-		newGameButton.setBounds(268, 664, 105, 23);
+		newGameButton.setFont(new Font("Arial", Font.PLAIN, 13));
+		newGameButton.setBounds(268, 659, 105, 23);
 		newGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				internalLogic = new InternalLogic();
@@ -158,6 +169,19 @@ public class Othello {
 			}
 		});
 		gameFrame.getContentPane().add(newGameButton);
+
+		JButton mainMenuButton = new JButton("Main Menu");
+		mainMenuButton.setFont(new Font("Arial", Font.PLAIN, 13));
+		mainMenuButton.setBounds(500, 659, 105, 23);
+		mainMenuButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				internalLogic = new InternalLogic();
+				readInternalLogic();
+				window.gameFrame.setVisible(false);
+				window.choiceFrame.setVisible(true);
+			}
+		});
+		gameFrame.getContentPane().add(mainMenuButton);
 
 		internalLogic = new InternalLogic();
 
@@ -171,10 +195,10 @@ public class Othello {
 				gridOfSquares[row][column] = new JButton();
 				gridOfSquares[row][column].setIcon(new ImageIcon(Othello.class.getResource(GREEN_SQUARE_IMAGE_PATH)));
 				gridOfSquares[row][column].setBounds(79 * column, 80 * row, 80, 80);
+				gridOfSquares[row][column].setFocusPainted(false);
 				gridOfSquares[row][column].setContentAreaFilled(false);
 				gridOfSquares[row][column].setRolloverEnabled(false);
 				gridOfSquares[row][column].setBorderPainted(false);
-				
 
 				final int r = row;
 				final int c = column;
@@ -205,6 +229,10 @@ public class Othello {
 									} else {
 										internalLogic.doNaiveOpponentMove();
 									}
+									if (internalLogic.getPossibleMoves(currentPlayerPieceValue).size() == 0) {
+										JOptionPane.showMessageDialog(null, internalLogic.getWinner());
+										break;
+									}
 								}
 
 								break;
@@ -218,9 +246,7 @@ public class Othello {
 
 					}
 				});
-
 				gameFrame.getContentPane().add(gridOfSquares[row][column]);
-
 			}
 		}
 
@@ -248,8 +274,6 @@ public class Othello {
 
 		ArrayList<Move> possibleMoves = internalLogic.getPossibleMoves(currentPlayerPieceValue);
 		for (Move move : possibleMoves) {
-//			System.out.println(move.getRow());
-//			System.out.println(move.getColumn() + "\n" + "\n");
 			gridOfSquares[move.getRow()][move.getColumn()]
 					.setIcon((new ImageIcon(Othello.class.getResource(POSSIBLE_MOVE_IMAGE_PATH))));
 		}

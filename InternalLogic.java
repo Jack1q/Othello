@@ -28,7 +28,7 @@ public class InternalLogic {
 		}
 	}
 
-	public void copy2DArray(int[][] grid, int[][] temp) {
+	private void copy2DArray(int[][] grid, int[][] temp) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				temp[i][j] = grid[i][j];
@@ -370,13 +370,11 @@ public class InternalLogic {
 				}
 			}
 		}
-		if (white > black) {
+		if (white > black)
 			return "White wins";
-		} else if (black > white) {
+		else if (black > white)
 			return "Black wins";
-		} else {
-			return "Tie";
-		}
+		return "Tie";
 
 	}
 
